@@ -7,7 +7,7 @@
  * @author      Daryl Peterson <@gmail.com>
  * @license     https://opensource.org MIT License
  * @link        https://github.com/daryl-peterson/
- * @since       1.0.0
+ * @since       0.0.1
  */
 
 namespace DRP\Tickets\Controllers;
@@ -27,7 +27,7 @@ use DRP\Tickets\TraitHidePrivates;
  * @copyright   Copyright (c) 2026, Daryl Peterson
  * @license     https://opensource.org MIT License
  * @link        https://github.com/daryl-peterson/
- * @since       1.0.0
+ * @since       0.0.1
  */
 class ActionController extends Controller {
     use TraitHidePrivates;
