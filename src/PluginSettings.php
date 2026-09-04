@@ -31,21 +31,21 @@ class PluginSettings {
     /**
      * Import settings for the LibreNMS Tickets plugin.
      *
-     * @since 1.0.0
+     * @since 0.0.1
      */
     public array $settings;
 
     /**
      * The plugin instance.
      *
-     * @since 1.0.0
+     * @since 0.0.1
      */
     public Plugin|null $plugin = null;
 
     /**
      * Import settings constructor.
      *
-     * @since 1.0.0
+     * @since 0.0.1
      */
     public function __construct() {
         $this->plugin = Tickets::getPlugin();
@@ -73,7 +73,7 @@ class PluginSettings {
      *
      * @return array
      *
-     * @since 1.0.0
+     * @since 0.0.1
      */
     public function all(): array {
         return $this->settings;
@@ -86,7 +86,7 @@ class PluginSettings {
      * @param mixed $default
      * @return mixed
      *
-     * @since 1.0.0
+     * @since 0.0.1
      */
     public function get(string $key, $default = null) {
         return $this->settings[$key] ?? $default;
@@ -99,7 +99,7 @@ class PluginSettings {
      * @param mixed $value
      * @return bool
      *
-     * @since 1.0.0
+     * @since 0.0.1
      */
     public function set(string $key, $value): bool {
         try {
@@ -117,6 +117,12 @@ class PluginSettings {
         }
     }
 
+    /**
+     * Reset all settings to default
+     *
+     * @return void
+     * @since 0.0.1
+     */
     public function reset() {
         $this->settings = [];
         if (!is_null($this->plugin)) {
@@ -125,6 +131,13 @@ class PluginSettings {
         }
     }
 
+    /**
+     * Delete a settings
+     *
+     * @param string $key
+     * @return boolean
+     * @since 0.0.1
+     */
     public function delete(string $key): bool {
         try {
             if (isset($this->settings[$key])) {
