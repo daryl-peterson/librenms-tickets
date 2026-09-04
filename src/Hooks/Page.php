@@ -14,6 +14,7 @@
 namespace DRP\Tickets\Hooks;
 
 use App\Plugins\Hooks\PageHook;
+use DRP\Tickets\Tickets;
 use DRP\DeviceImporter\DeviceImporter;
 
 
@@ -29,10 +30,10 @@ use DRP\DeviceImporter\DeviceImporter;
  */
 class Page extends PageHook {
 
-	public function data(): array {
-
-		return [
-			'info' => [],
-		];
-	}
+    public function data(): array {
+        $info = Tickets::getInfo();
+        return [
+            'info' => $info,
+        ];
+    }
 }

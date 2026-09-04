@@ -14,20 +14,21 @@
 namespace DRP\Tickets;
 
 use LibreNMS\Plugins;
-
 use LibreNMS\Interfaces\Plugins\PluginManagerInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\DeviceOverviewHook as DeviceOverviewHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\MenuEntryHook as MenuEntryHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\SettingsHook as SettingsHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\SinglePageHook;
+
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
+
 use DRP\Tickets\Hooks\DeviceOverview;
 use DRP\Tickets\Hooks\Menu;
 use DRP\Tickets\Hooks\Page;
 use DRP\Tickets\Hooks\Settings;
-
+use DRP\Tickets\PluginSettings;
 
 
 /**
@@ -50,7 +51,7 @@ class TicketServiceProvider extends ServiceProvider {
 
         $hasRedis = checkRedis();
         if (! $hasRedis) {
-            $obj = new ImportSettings();
+            $obj = new PluginSettings();
             $obj->set('redis', false);
         } else {
             config(['queue.default' => 'redis']);
@@ -61,14 +62,14 @@ class TicketServiceProvider extends ServiceProvider {
          * Compatibility view path.
          *
          * LibreNMS local plugins commonly reference views like:
-         * device-importer::resources.views.page
+         * librenms-tickets::resources.views.page
          *
          * Package views can also be referenced as:
          * device-importer::page
          */
 
         $rootPath = base_path();
-        $viewPath = $rootPath . '/vendor/daryl-peterson/librenms-device-importer/resources/views';
+        $viewPath = $rootPath . '/vendor/daryl-peterson/librenms-tickets/resources/views';
         $paths = [
             __DIR__ . '/..',
             __DIR__ . '/../resources/views',
@@ -78,8 +79,8 @@ class TicketServiceProvider extends ServiceProvider {
         Log::debug('View paths: ' . PHP_EOL . print_r($paths, true));
 
 
-        $this->loadViewsFrom($paths, 'device-importer');
-        //$this->loadViewsFrom(__DIR__ . '/../resources/views', 'librenms-device-importer');
+        $this->loadViewsFrom($paths, 'librenms-tickets');
+        //$this->loadViewsFrom(__DIR__ . '/../resources/views', 'librenms-tickets');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 

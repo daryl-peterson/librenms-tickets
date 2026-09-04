@@ -15,6 +15,8 @@ namespace DRP\Tickets\Hooks;
 
 use App\Models\Device;
 use App\Plugins\Hooks\DeviceOverviewHook;
+use DRP\Tickets\Tickets;
+use DRP\Tickets\TraitHidePrivates;
 
 /**
  * LibreNMS Tickets Device Overview Hook
@@ -27,15 +29,22 @@ use App\Plugins\Hooks\DeviceOverviewHook;
  * @since       0.0.1
  */
 class DeviceOverview extends DeviceOverviewHook {
+    use TraitHidePrivates;
 
+    private array $info;
 
-	public function data(\App\Models\Device $device): array {
-		// here we pass a title string, url to notes, and the device to the blade view for display
+    public function __construct() {
+        $this->info = Tickets::getInfo();
+    }
 
-		return [
-			'title' => 'Example Plugin: Device Notes',
-			'device' => $device,
-			'url' => url('device/' . $device->device_id . '/notes'),
-		];
-	}
+    public function data(Device $device): array {
+        // here we pass a title string, url to notes, and the device to the blade view for display
+
+        $title = Tickets::TITLE . ' Device Tickets';
+        return [
+            'title' => $title,
+            'device' => $device,
+            'url' => url('device/' . $device->device_id . '/tickets'),
+        ];
+    }
 }

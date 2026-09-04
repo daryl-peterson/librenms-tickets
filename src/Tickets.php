@@ -41,7 +41,7 @@ class Tickets {
     /**
      * Get plugin information.
      *
-     * @return array{name: '',title: '',author: '',ver: '',settings: string,page: string,plugin: Plugin,redis: bool}
+     * @return array{name: '',title: '',author: '',ver: '',settings: string,routes: array{settings: string,page: string},plugin: Plugin,redis: bool}
      *
      * @version 1.0.0
      */
