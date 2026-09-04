@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Importer for the LibreNMS Tickets plugin.
+ *
+ * @package     librenms-tickets
+ * @author      Daryl Peterson <@gmail.com>
+ * @copyright   Copyright (c) 2026, Daryl Peterson
+ * @license     https://opensource.org MIT License
+ * @link        https://github.com/daryl-peterson/
+ * @since       1.0.0
+ */
+
+namespace DRP\Tickets;
+
+use App\Models\Plugin;
+use Illuminate\Support\Facades\Log;
+
+/**
+ * Importer for the LibreNMS Tickets plugin.
+ *
+ * @package     librenms-tickets
+ * @author      Daryl Peterson <@gmail.com>
+ * @copyright   Copyright (c) 2026, Daryl Peterson
+ * @license     https://opensource.org MIT License
+ * @link        https://github.com/daryl-peterson/
+ * @since       1.0.0
+ */
+class Tickets {
+
+    const PLUGIN          = 'librenms-tickets';
+    const TITLE           = 'LibreNMS Tickets';
+    const AUTHOR          = 'Daryl Peterson';
+    const VER             = '0.0.1';
+
+    public function __construct() {
+        # Code Here
+    }
+
+
+    /**
+     * Get plugin information.
+     *
+     * @return array{name: '',title: '',author: '',ver: '',settings: string,page: string,plugin: Plugin,redis: bool}
+     *
+     * @version 1.0.0
+     */
+    public static function getInfo() {
+
+        $redisAvailable = checkRedis();
+        return array(
+            'name'     => self::PLUGIN,
+            'title'    => self::TITLE,
+            'author'   => self::AUTHOR,
+            'ver'      => self::VER,
+            'settings' => self::getSettings(),
+            'routes' => [
+                'settings' => route('plugin.settings', self::PLUGIN),
+                'page'     => route('plugin.page', self::PLUGIN),
+            ],
+            'plugin'   => self::getPlugin(),
+            'redis' => $redisAvailable,
+        );
+    }
+
+    /**
+     * Get plugin object model.
+     *
+     * @return Plugin
+     * @version 1.0.0
+     */
+    public static function getPlugin(): Plugin|null {
+        $result = Plugin::where('plugin_name', self::PLUGIN)->first();
+
+        // Check if the plugin exists in the database.
+        if (is_null($result)) {
+            Log::error('Plugin not found: ' . self::PLUGIN);
+            return null;
+        }
+        return $result;
+    }
+
+    public static function getSettings(): array {
+        $obj = new PluginSettings();
+        $settings = $obj->all();
+        return $settings ?? [];
+    }
+}
