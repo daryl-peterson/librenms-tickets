@@ -2,17 +2,30 @@
     "name": "daryl-peterson/librenms-tickets",
     "type": "package",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "DRP\\Tickets\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "daryl-peterson",
             "email": "daryl.peterson@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "DRP\\Tickets\\": "src/"
+        },
+        "files": [
+            "./helpers.php"
+        ]
+    },
+     "extra": {
+        "laravel": {
+            "providers": [
+                "DRP\\Tickets\\TicketServiceProvider"
+            ],
+            "aliases": {
+                "Tickets": "DRP\\Tickets\\Facade"
+            }
+        }
+    },
     "minimum-stability": "dev",
     "require": {}
 }
