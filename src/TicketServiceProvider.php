@@ -14,11 +14,13 @@
 namespace DRP\Tickets;
 
 use LibreNMS\Plugins;
+use App\Plugins\PluginManager;
 use LibreNMS\Interfaces\Plugins\PluginManagerInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\DeviceOverviewHook as DeviceOverviewHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\MenuEntryHook as MenuEntryHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\SettingsHook as SettingsHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\SinglePageHook;
+
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Log;
@@ -88,10 +90,13 @@ class TicketServiceProvider extends ServiceProvider {
         Log::debug('Current view paths: ' . PHP_EOL . print_r($paths, true));
 
 
+        /**
+         * @var PluginManager $pluginManager
+         */
         $pluginManager = $this->app->make(PluginManagerInterface::class);
 
-        Log::debug('Plugin Manager: ' . PHP_EOL . print_r($pluginManager, true));
-        $pluginManager->publishHook($pluginName, DeviceOverviewHookInterface::class, DeviceOverview::class);
+
+        //$pluginManager->publishHook($pluginName, DeviceOverviewHookInterface::class, DeviceOverview::class);
         $pluginManager->publishHook($pluginName, MenuEntryHookInterface::class, Menu::class);
         $pluginManager->publishHook($pluginName, SinglePageHook::class, Page::class);
         $pluginManager->publishHook($pluginName, SettingsHookInterface::class, Settings::class);
