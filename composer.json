@@ -31,10 +31,10 @@
      "extra": {
         "laravel": {
             "providers": [
-                "DRP\\Tickets\\TicketServiceProvider"
+                "DRP\\Tickets\\PluginProvider"
             ],
             "aliases": {
-                "Tickets": "DRP\\Tickets\\Facade"
+                "Tickets": "DRP\\Tickets\\Facades\\Tickets"
             }
         }
     },
