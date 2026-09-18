@@ -1,7 +1,7 @@
 <?php
 
 /**
- * LibreNMS Tickets plugin settings management.
+ * LibreNMS Tickets Plugin Settings.
  *
  * @package     librenms-tickets
  * @author      Daryl Peterson <@gmail.com>
@@ -13,14 +13,14 @@
 
 namespace DRP\Tickets;
 
+use Throwable;
 use App\Models\Plugin;
-use Illuminate\Support\Facades\Log;
-use DRP\Tickets\Tickets;
+use DRP\Tickets\Log;
 
 /**
- * LibreNMS Tickets plugin settings management.
+ * LibreNMS Tickets Plugin Settings.
  *
- * @package     librenms
+ * @package     librenms-tickets
  * @author      Daryl Peterson <@gmail.com>
  * @copyright   Copyright (c) 2026, Daryl Peterson
  * @license     https://opensource.org MIT License
@@ -28,6 +28,7 @@ use DRP\Tickets\Tickets;
  * @since       0.0.1
  */
 class PluginSettings {
+
     /**
      * Import settings for the LibreNMS Tickets plugin.
      *
@@ -43,12 +44,12 @@ class PluginSettings {
     public Plugin|null $plugin = null;
 
     /**
-     * Import settings constructor.
+     * LibreNMS Tickets plugin settings constructor.
      *
      * @since 0.0.1
      */
     public function __construct() {
-        $this->plugin = Tickets::getPlugin();
+        $this->plugin = PluginData::getPluginModel();
         $settings = null;
 
         if (is_null($this->plugin)) {
@@ -59,13 +60,15 @@ class PluginSettings {
         $settings = $this->plugin->settings;
 
         if (!is_array($settings)) {
-            $settings = [];
-            $this->settings = $settings;
+            $defaults = $this->getDefaults();
+
+            Log::info('Plugin settings to default', ['defaults' => $defaults]);
+            $this->settings = $defaults;
             $this->plugin->settings = $this->settings;
             $this->plugin->save();
+        } else {
+            $this->settings = $settings;
         }
-
-        $this->settings = $settings;
     }
 
     /**
@@ -82,8 +85,8 @@ class PluginSettings {
     /**
      * Get a specific plugin setting.
      *
-     * @param string $key
-     * @param mixed $default
+     * @param string $key The setting key to retrieve.
+     * @param mixed $default The default value to return if the setting key does not exist.
      * @return mixed
      *
      * @since 0.0.1
@@ -95,8 +98,8 @@ class PluginSettings {
     /**
      * Set a plugin setting.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param string $key The setting key to set.
+     * @param mixed $value The value to set for the specified setting key.
      * @return bool
      *
      * @since 0.0.1
@@ -111,16 +114,29 @@ class PluginSettings {
 
             $this->plugin->settings = $this->settings;
             return $this->plugin->save();
-        } catch (\Exception $e) {
-            Log::error('Failed to save plugin settings: ' . $e->getMessage());
+        } catch (Throwable $th) {
+            Log::error("Error setting plugin setting: " . $th->getMessage());
             return false;
         }
     }
 
     /**
-     * Reset all settings to default
+     * Check if a plugin setting exists.
+     *
+     * @param string $key The setting key to check for existence.
+     * @return bool
+     *
+     * @since 0.0.1
+     */
+    public function has(string $key): bool {
+        return isset($this->settings[$key]);
+    }
+
+    /**
+     * Reset all plugin settings.
      *
      * @return void
+     *
      * @since 0.0.1
      */
     public function reset() {
@@ -132,10 +148,11 @@ class PluginSettings {
     }
 
     /**
-     * Delete a settings
+     * Delete a specific plugin setting.
      *
-     * @param string $key
-     * @return boolean
+     * @param string $key The setting key to delete.
+     * @return bool
+     *
      * @since 0.0.1
      */
     public function delete(string $key): bool {
@@ -150,9 +167,26 @@ class PluginSettings {
 
             $this->plugin->settings = $this->settings;
             return $this->plugin->save();
-        } catch (\Exception $e) {
-            Log::error('Failed to delete plugin setting: ' . $e->getMessage());
+        } catch (Throwable $th) {
+            Log::error("Error deleting plugin setting: " . $th->getMessage());
             return false;
         }
+    }
+
+    /**
+     * Get the default LibreNMS Tickets plugin settings.
+     *
+     * @return array
+     *
+     * @since 0.0.1
+     */
+    private function getDefaults(): array {
+        $settings = [];
+        $settings['database'] = PluginDb::PLUGIN_DB_DATABASE;
+        $settings['host'] = PluginDb::PLUGIN_DB_HOST;
+        $settings['port'] = PluginDb::PLUGIN_DB_PORT;
+        $settings['username'] = PluginDb::PLUGIN_DB_USERNAME;
+        $settings['password'] = PluginDb::PLUGIN_DB_PASSWORD;
+        return $settings;
     }
 }

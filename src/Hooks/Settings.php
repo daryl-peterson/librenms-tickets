@@ -14,8 +14,7 @@
 namespace DRP\Tickets\Hooks;
 
 use App\Plugins\Hooks\SettingsHook;
-use Illuminate\Support\Facades\Log;
-
+use DRP\Tickets\Log;
 
 
 /**
@@ -38,6 +37,7 @@ class Settings extends SettingsHook {
      * @return array The data to be passed to the settings view.
      */
     public function data(array $settings = []): array {
+        Log::debug("Here");
         return [
             'settings' => $settings,
         ];

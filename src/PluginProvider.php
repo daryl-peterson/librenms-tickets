@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Device import service provider.
+ * LibreNMS Tickets service provider.
  *
  * @package     librenms-tickets
  * @author      Daryl Peterson <@gmail.com>
@@ -20,12 +20,12 @@ use LibreNMS\Interfaces\Plugins\Hooks\MenuEntryHook as MenuEntryHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\SettingsHook as SettingsHookInterface;
 use LibreNMS\Interfaces\Plugins\Hooks\SinglePageHook;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Log;
+
 
 use DRP\Tickets\Hooks\Menu;
 use DRP\Tickets\Hooks\Page;
 use DRP\Tickets\Hooks\Settings;
-
+use DRP\Tickets\Log;
 
 /**
  * LibreNMS Tickets service provider.
@@ -53,13 +53,13 @@ class PluginProvider extends ServiceProvider {
          * librenms-tickets::resources.views.page
          *
          * Package views can also be referenced as:
-         * device-importer::page
+         * librenms-tickets::page
          */
         $paths = [
             __DIR__ . '/..',
             __DIR__ . '/../resources/views',
         ];
-        Log::debug('View paths: ' . PHP_EOL . print_r($paths, true));
+        Log::debug('View paths:', $paths);
         $this->loadViewsFrom($paths, 'librenms-tickets');
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         //$this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
