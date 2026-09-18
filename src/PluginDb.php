@@ -51,13 +51,6 @@ class PluginDb {
 
     use TraitHidePrivates;
 
-    const PLUGIN_DB_HOST        = '127.0.0.1';
-    const PLUGIN_DB_PORT        = '3306';
-    const PLUGIN_DB_CONNECTION  = 'plugin_db';
-    const PLUGIN_DB_DATABASE    = 'librenms_plugin_db';
-    const PLUGIN_DB_USERNAME    = 'plugin_user';
-    const PLUGIN_DB_PASSWORD    = 'plugin_password';
-
     /**
      * Plugin cache instance
      */
@@ -325,12 +318,12 @@ class PluginDb {
      */
     private static function initProperties(): void {
         self::$pluginCache = new PluginCache();
-        self::$dbConnection = env('PLUGIN_DB_CONNECTION', self::PLUGIN_DB_CONNECTION);
-        self::$dbName = env('PLUGIN_DB_DATABASE', self::PLUGIN_DB_DATABASE);
-        self::$dbHost = env('PLUGIN_DB_HOST', self::PLUGIN_DB_HOST);
-        self::$dbPort = env('PLUGIN_DB_PORT', self::PLUGIN_DB_PORT);
-        self::$dbUsername = env('PLUGIN_DB_USERNAME', self::PLUGIN_DB_USERNAME);
-        self::$dbPassword = env('PLUGIN_DB_PASSWORD', self::PLUGIN_DB_PASSWORD);
+        self::$dbConnection = env('PLUGIN_DB_CONNECTION', PLUGIN_DB_CONNECTION);
+        self::$dbName = env('PLUGIN_DB_DATABASE', PLUGIN_DB_DATABASE);
+        self::$dbHost = env('PLUGIN_DB_HOST', PLUGIN_DB_HOST);
+        self::$dbPort = env('PLUGIN_DB_PORT', PLUGIN_DB_PORT);
+        self::$dbUsername = env('PLUGIN_DB_USERNAME', PLUGIN_DB_USERNAME);
+        self::$dbPassword = env('PLUGIN_DB_PASSWORD', PLUGIN_DB_PASSWORD);
     }
 
     private static function getDate(): string {

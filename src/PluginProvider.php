@@ -25,7 +25,7 @@ use Illuminate\Support\ServiceProvider;
 use DRP\Tickets\Hooks\Menu;
 use DRP\Tickets\Hooks\Page;
 use DRP\Tickets\Hooks\Settings;
-use DRP\Tickets\Log;
+
 
 /**
  * LibreNMS Tickets service provider.
@@ -40,11 +40,11 @@ use DRP\Tickets\Log;
 class PluginProvider extends ServiceProvider {
 
     public function register(): void {
-        # code
+        require_once __DIR__ . '/constants.php';
     }
 
     public function boot(): void {
-        $pluginName = 'librenms-tickets';
+        $pluginName = PLUGIN_NAME;
 
         /*
          * Compatibility view path.
@@ -59,8 +59,7 @@ class PluginProvider extends ServiceProvider {
             __DIR__ . '/..',
             __DIR__ . '/../resources/views',
         ];
-        Log::debug('View paths:', $paths);
-        $this->loadViewsFrom($paths, 'librenms-tickets');
+        $this->loadViewsFrom($paths, PLUGIN_NAME);
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         //$this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 

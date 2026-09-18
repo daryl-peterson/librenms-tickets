@@ -47,7 +47,7 @@ class Tickets {
      */
     public static function getInfo() {
 
-        $redisAvailable = checkRedis();
+
         return array(
             'name'     => self::PLUGIN,
             'title'    => self::TITLE,
@@ -59,7 +59,7 @@ class Tickets {
                 'page'     => route('plugin.page', self::PLUGIN),
             ],
             'plugin'   => self::getPlugin(),
-            'redis' => $redisAvailable,
+
         );
     }
 

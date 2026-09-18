@@ -14,8 +14,9 @@
 namespace DRP\Tickets;
 
 use Throwable;
-use App\Models\Plugin;
+use App\Models\Plugin as PluginModel;
 use DRP\Tickets\Log;
+use DRP\Tickets\Plugin;
 
 /**
  * LibreNMS Tickets Plugin Settings.
@@ -41,7 +42,7 @@ class PluginSettings {
      *
      * @since 0.0.1
      */
-    public Plugin|null $plugin = null;
+    public PluginModel|null $plugin = null;
 
     /**
      * LibreNMS Tickets plugin settings constructor.
@@ -49,7 +50,7 @@ class PluginSettings {
      * @since 0.0.1
      */
     public function __construct() {
-        $this->plugin = PluginData::getPluginModel();
+        $this->plugin = Plugin::getPluginModel();
         $settings = null;
 
         if (is_null($this->plugin)) {
@@ -182,11 +183,11 @@ class PluginSettings {
      */
     private function getDefaults(): array {
         $settings = [];
-        $settings['database'] = PluginDb::PLUGIN_DB_DATABASE;
-        $settings['host'] = PluginDb::PLUGIN_DB_HOST;
-        $settings['port'] = PluginDb::PLUGIN_DB_PORT;
-        $settings['username'] = PluginDb::PLUGIN_DB_USERNAME;
-        $settings['password'] = PluginDb::PLUGIN_DB_PASSWORD;
+        $settings['database'] = PLUGIN_DB_DATABASE;
+        $settings['host'] = PLUGIN_DB_HOST;
+        $settings['port'] = PLUGIN_DB_PORT;
+        $settings['username'] = PLUGIN_DB_USERNAME;
+        $settings['password'] = PLUGIN_DB_PASSWORD;
         return $settings;
     }
 }

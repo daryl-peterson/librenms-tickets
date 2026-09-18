@@ -22,8 +22,6 @@ namespace DRP\Tickets;
  * @since       0.0.1
  */
 class Test {
-    public function __construct()
-    {
-
+    public function __construct() {
     }
 }

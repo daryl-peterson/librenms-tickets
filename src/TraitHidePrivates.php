@@ -14,14 +14,17 @@ namespace DRP\Tickets;
 
 use ReflectionProperty;
 
+/**
+ * Trait to hide private properties from debug output.
+ */
 trait TraitHidePrivates {
-	public function __debugInfo() {
-		$properties = get_object_vars($this);
-		foreach ($properties as $key => $value) {
-			if ((new ReflectionProperty($this, $key))->isPrivate()) {
-				unset($properties[$key]);
-			}
-		}
-		return $properties;
-	}
+    public function __debugInfo() {
+        $properties = get_object_vars($this);
+        foreach ($properties as $key => $value) {
+            if ((new ReflectionProperty($this, $key))->isPrivate()) {
+                unset($properties[$key]);
+            }
+        }
+        return $properties;
+    }
 }

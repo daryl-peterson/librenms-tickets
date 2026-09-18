@@ -25,7 +25,7 @@ use App\Models\Plugin as PluginModel;
 
 use DRP\Tickets\Log;
 use DRP\Tickets\PluginSettings;
-use DRP\Tickets\PluginCache;
+
 
 /**
  * LibreNMS Tickets Plugin.
@@ -37,12 +37,7 @@ use DRP\Tickets\PluginCache;
  * @link        https://github.com/daryl-peterson/
  * @since       0.0.1
  */
-class PluginData {
-
-    const PLUGIN        = 'librenms-tickets';
-    const TITLE         = 'LibreNMS Tickets';
-    const AUTHOR        = 'Daryl Peterson';
-    const VER           = 'v0.1.0-alpha.01';
+class Plugin {
 
     /**
      * Constructor.
@@ -68,7 +63,7 @@ class PluginData {
      *    ready: bool,
      *    error: string|null
      *  },
-     * }
+     * }`
      *
      * @version 0.0.1
      */
@@ -76,10 +71,10 @@ class PluginData {
         //$dbError = PluginCache::get(PluginCache::DB_ERROR);
 
         $result = array(
-            'name'     => self::PLUGIN,
-            'title'    => self::TITLE,
-            'author'   => self::AUTHOR,
-            'ver'      => self::VER,
+            'name'     => PLUGIN_NAME,
+            'title'    => PLUGIN_TITLE,
+            'author'   => PLUGIN_AUTHOR,
+            'ver'      => PLUGIN_VER,
             'image'    => 'https://avatars.githubusercontent.com/u/13834451?s=400&u=ff8417db6126da8d9ff82822ea0be5897ad744b3&v=4',
             'settings' => self::getSettings(),
             'dbStatus'  => [
@@ -98,11 +93,11 @@ class PluginData {
      * @version 0.0.1
      */
     public static function getPluginModel(): PluginModel|null {
-        $result = PluginModel::where('plugin_name', self::PLUGIN)->first();
+        $result = PluginModel::where('plugin_name', PLUGIN_NAME)->first();
 
         // Check if the plugin exists in the database.
         if (is_null($result)) {
-            Log::error('Plugin not found: ' . self::PLUGIN);
+            Log::error('Plugin not found: ' . PLUGIN_NAME);
             return null;
         }
         return $result;
@@ -118,9 +113,5 @@ class PluginData {
         $obj = new PluginSettings();
         $settings = $obj->all();
         return $settings ?? [];
-    }
-
-    public static function getPluginName(): string {
-        return self::PLUGIN;
     }
 }
