@@ -46,6 +46,7 @@ use DRP\Tickets\PluginSettings;
 class TicketServiceProvider extends ServiceProvider {
 
     public function register(): void {
+        # code
     }
 
     public function boot(): void {
