@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * LibreNMS Tickets Contants
+ *
+ * @package     librenms-tickets
+ * @author      Daryl Peterson <daryl.peterson@gmail.com>
+ * @license     https://opensource.org MIT License
+ * @link        https://github.com
+ * @since       0.0.1
+ */
+
 namespace DRP\Tickets;
 
 /**
@@ -19,7 +29,6 @@ const PLUGIN_DB_CONNECTION  = 'plugin_db';
 const PLUGIN_DB_DATABASE    = 'librenms_plugin_db';
 const PLUGIN_DB_USERNAME    = 'plugin_user';
 const PLUGIN_DB_PASSWORD    = 'plugin_password';
-
 
 /**
  * Database cache keys for connection checks.
